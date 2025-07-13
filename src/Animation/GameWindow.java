@@ -2,6 +2,7 @@ package Animation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GameWindow {
     public JFrame window;
@@ -10,6 +11,7 @@ public class GameWindow {
     private JPanel cardPanel;
     private CardLayout cl;
     private Dimension size;
+    private GameFrame gameFrame;
 
     public GameWindow(){
         size = new Dimension(600, 800);
@@ -19,14 +21,16 @@ public class GameWindow {
         cardPanel = new JPanel(cl);
         menuPanel = new JPanel();
         BackGround background = new BackGround();
+        gameFrame = new GameFrame();
 
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBounds(0,100,600,800);
         setButtons(menuPanel);
 
-        cardPanel.setBounds(0,100, size.width, size.height);
+        cardPanel.setBounds(0,50, size.width, size.height);
         cardPanel.setOpaque(false);
         cardPanel.add(menuPanel, "MENU");
+        cardPanel.add(gameFrame, "GAME");
         cl.show(cardPanel, "MENU");
 
         layers.add(background,0);
@@ -54,6 +58,7 @@ public class GameWindow {
 
     private JButton createButton(String name, Dimension size, Font font){
         JButton button = new JButton(name);
+        button.addActionListener(e-> cl.show(cardPanel, "GAME"));
         button.setPreferredSize(size);
         button.setMaximumSize(size);
         button.setFont(font);
