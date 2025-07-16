@@ -5,7 +5,6 @@ import java.awt.*;
 public class Bird{
     private final int positionX;
     private int positionY;
-    private final int startinVelocity;
     private final int jumpPower;
     private final Dimension size;
     private final int sizeX;
@@ -13,19 +12,21 @@ public class Bird{
     private final int maxY;
     private final int minY;
     private boolean gameOver = false;
-    private int velocity;
-    private int acceleration;
+    private final int startingVelocity;
+    private double velocity;
+    private double acceleration;
 
     public Bird(){
-        positionX = 150;
-        positionY = 150;
-        startinVelocity = 1;
-        velocity = startinVelocity;
-        jumpPower = 40* startinVelocity;
+        positionX = 100;
+        positionY = 200;
+        startingVelocity = 2;
+        velocity = startingVelocity;
+        jumpPower = 40*startingVelocity;
+        acceleration = 0.02;
         sizeX = 50;
         sizeY=50;
-        maxY=450;
-        minY=-50;
+        maxY=555;
+        minY=95;
         size = new Dimension(sizeX,sizeY);
     }
 
@@ -55,7 +56,12 @@ public class Bird{
 
     public void jump(){
         positionY -= jumpPower;
-        velocity = startinVelocity;
+        velocity = startingVelocity;
+    }
+
+    public void drawBird(Graphics g){
+        g.setColor(new Color(150,200,120));
+        g.fillOval(positionX, positionY , sizeX, sizeY);
     }
 
     public void spaceAction(){
@@ -63,7 +69,7 @@ public class Bird{
             gameOver = true;
         }
         if(!gameOver) {
-            positionY += velocity;
+            positionY += (int)velocity;
             velocity += acceleration;
 
         }

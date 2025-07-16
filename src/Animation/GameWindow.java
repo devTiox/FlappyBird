@@ -24,10 +24,10 @@ public class GameWindow {
         gameFrame = new GameFrame();
 
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBounds(0,100,600,800);
+        menuPanel.setBounds(0,0,600,800);
         setButtons(menuPanel);
 
-        cardPanel.setBounds(0,50, size.width, size.height);
+        cardPanel.setBounds(0,0, size.width, size.height);
         cardPanel.setOpaque(false);
         cardPanel.add(menuPanel, "MENU");
         cardPanel.add(gameFrame, "GAME");
@@ -46,6 +46,7 @@ public class GameWindow {
         Dimension prefSize = new Dimension(300, 100);
         Font font = new Font("Arial", Font.ITALIC, 20);
         buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(Box.createVerticalStrut(50));
         buttonPanel.add(createButton("Play", prefSize, font));
         buttonPanel.add(Box.createVerticalStrut(50));
         buttonPanel.add(createButton("Scores Table", prefSize, font));

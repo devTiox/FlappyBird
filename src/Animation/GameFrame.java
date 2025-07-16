@@ -16,7 +16,7 @@ public class GameFrame extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(600, 800));
         setMaximumSize(new Dimension(600, 800));
         setLayout(null);
-        setBounds(100, 0, 600, 700);
+        setBounds(0, 0, 600, 800);
         setOpaque(false);
 
         timer = new Timer(10,this);
@@ -25,17 +25,29 @@ public class GameFrame extends JPanel implements ActionListener {
         getActionMap().put("jumping", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-               bird.jump();
+                bird.jump();
             }
         });
     }
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.setColor(new Color(10,50,30));
-        g.fillOval(bird.getPositionX(), bird.getPositionY(), bird.getSizeX(), bird.getSizeY());
+        paintSky(g);
+        paintGround(g);
+        bird.drawBird(g);
     }
 
+    private void paintSky(Graphics g){
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 600, 100);
+    }
+
+    private void paintGround(Graphics g){
+        g.setColor(new Color(111,78,55));
+        g.fillRect(0, 650, 600,100);
+        g.setColor(new Color(140, 200,100));
+        g.fillRect(0, 600, 600,50);
+    }
 
     public void actionPerformed(ActionEvent actionEvent){
         bird.spaceAction();
