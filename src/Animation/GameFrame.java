@@ -1,6 +1,6 @@
 package Animation;
 
-import Objects.Bird;
+import Objects.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 public class GameFrame extends JPanel implements ActionListener {
     private Bird bird;
     private Timer timer;
+    private Pipe pipe;
 
     public GameFrame(){
         bird = new Bird();
+        pipe = new Pipe();
         setPreferredSize(new Dimension(600, 800));
         setMaximumSize(new Dimension(600, 800));
         setLayout(null);
@@ -35,6 +37,7 @@ public class GameFrame extends JPanel implements ActionListener {
         paintSky(g);
         paintGround(g);
         bird.drawBird(g);
+        pipe.drawPipe(g);
     }
 
     private void paintSky(Graphics g){
@@ -51,6 +54,7 @@ public class GameFrame extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent actionEvent){
         bird.spaceAction();
+        pipe.pipeMove();
         repaint();
         if(bird.isGameOver()) {
             timer.stop();
