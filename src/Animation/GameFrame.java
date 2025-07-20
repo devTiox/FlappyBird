@@ -6,10 +6,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ListIterator;
 
 public class GameFrame extends JPanel implements ActionListener {
-    private Bird bird;
-    private Timer timer;
+    private final Bird bird;
+    private final Timer timer;
     private Pipe pipe;
 
     public GameFrame(){
@@ -38,6 +39,7 @@ public class GameFrame extends JPanel implements ActionListener {
         paintGround(g);
         bird.drawBird(g);
         pipe.drawPipe(g);
+        ListIterator<Pipe> iterator = Pipe.pipesQueue.listIterator();
     }
 
     private void paintSky(Graphics g){
@@ -55,6 +57,9 @@ public class GameFrame extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent actionEvent){
         bird.spaceAction();
         pipe.pipeMove();
+        for(Pipe p : Pipe.pipesQueue){
+            p.pipeMove();
+        }
         repaint();
         if(bird.isGameOver()) {
             timer.stop();

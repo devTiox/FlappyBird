@@ -4,18 +4,12 @@ import java.awt.*;
 
 public class Bird extends MyObject{
     private boolean gameOver = false;
-    private final int jumpPower;
-    private final int startingVelocity;
-    private double velocity;
-    private double acceleration;
+    private final int startingVelocity = 2;
+    private double velocity = startingVelocity;
+    private final double gravity = 0.02;
 
     public Bird(){
-        super(100, 200, 50, 50);
-        startingVelocity = 2;
-        velocity = startingVelocity;
-        jumpPower = 40*startingVelocity;
-        acceleration = 0.02;
-
+        super(100, 200, 50, 30);
     }
 
     public boolean isGameOver(){
@@ -23,6 +17,7 @@ public class Bird extends MyObject{
     }
 
     public void jump(){
+        int jumpPower = 40*startingVelocity;
         positionY -= jumpPower;
         velocity = startingVelocity;
     }
@@ -38,7 +33,7 @@ public class Bird extends MyObject{
         }
         if(!gameOver) {
             positionY += (int)velocity;
-            velocity += acceleration;
+            velocity += gravity;
 
         }
     }
