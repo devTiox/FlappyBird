@@ -17,7 +17,7 @@ public class Bird extends MyObject{
     }
 
     public void jump(){
-        int jumpPower = 40*startingVelocity;
+        int jumpPower = 35*startingVelocity;
         positionY -= jumpPower;
         velocity = startingVelocity;
     }
@@ -25,10 +25,12 @@ public class Bird extends MyObject{
     public void drawBird(Graphics g){
         g.setColor(new Color(250,120,160));
         g.fillOval(positionX, positionY , sizeX, sizeY);
+        g.setColor(Color.BLACK);
+        g.fillOval(positionX+35, positionY+5, 10, 7);
     }
 
     public void spaceAction(){
-        if(positionY >= maxY || positionY <= minY){
+        if(positionY >= maxY+20 || positionY <= minY){
             gameOver = true;
         }
         if(!gameOver) {

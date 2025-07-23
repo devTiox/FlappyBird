@@ -2,7 +2,6 @@ package Animation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class GameWindow {
     public JFrame window;
@@ -16,6 +15,7 @@ public class GameWindow {
     public GameWindow(){
         size = new Dimension(600, 800);
         window = new JFrame("FlappyTypeShit");
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         layers = new JLayeredPane();
         cl = new CardLayout();
         cardPanel = new JPanel(cl);
