@@ -1,0 +1,41 @@
+package Objects;
+
+import java.awt.*;
+
+public abstract class MyObject {
+    protected int positionX;
+    protected int positionY;
+    protected final Dimension size;
+    protected final int sizeX;
+    protected final int sizeY;
+    protected final int maxY = 555;
+    protected final int minY = 100;
+
+    public MyObject(int positionX, int positionY, int sizeX, int sizeY){
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        size = new Dimension(sizeX,sizeY);
+    }
+//
+//    public Dimension getSize() {
+//        return size;
+//    }
+//
+//    public int getSizeX() {
+//        return sizeX;
+//    }
+//
+//    public int getSizeY() {
+//        return sizeY;
+//    }
+    public int getPositionX() {
+        return positionX;
+    }
+//
+//    public int getPositionY() {
+//        return positionY;
+//    }
+
+}

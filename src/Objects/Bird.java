@@ -2,75 +2,40 @@ package Objects;
 
 import java.awt.*;
 
-public class Bird{
-    private final int positionX;
-    private int positionY;
-    private final int jumpPower;
-    private final Dimension size;
-    private final int sizeX;
-    private final int sizeY;
-    private final int maxY;
-    private final int minY;
+public class Bird extends MyObject{
     private boolean gameOver = false;
-    private final int startingVelocity;
-    private double velocity;
-    private double acceleration;
+    private final int startingVelocity = 2;
+    private double velocity = startingVelocity;
+    private final double gravity = 0.02;
 
     public Bird(){
-        positionX = 100;
-        positionY = 200;
-        startingVelocity = 2;
-        velocity = startingVelocity;
-        jumpPower = 40*startingVelocity;
-        acceleration = 0.02;
-        sizeX = 50;
-        sizeY=50;
-        maxY=555;
-        minY=95;
-        size = new Dimension(sizeX,sizeY);
-    }
-
-    public Dimension getSize() {
-        return size;
+        super(100, 200, 50, 30);
     }
 
     public boolean isGameOver(){
         return gameOver;
     }
 
-    public int getSizeX() {
-        return sizeX;
-    }
-
-    public int getSizeY() {
-        return sizeY;
-    }
-
-    public int getPositionX() {
-        return positionX;
-    }
-
-    public int getPositionY() {
-        return positionY;
-    }
-
     public void jump(){
+        int jumpPower = 35*startingVelocity;
         positionY -= jumpPower;
         velocity = startingVelocity;
     }
 
     public void drawBird(Graphics g){
-        g.setColor(new Color(150,200,120));
+        g.setColor(new Color(250,120,160));
         g.fillOval(positionX, positionY , sizeX, sizeY);
+        g.setColor(Color.BLACK);
+        g.fillOval(positionX+35, positionY+5, 10, 7);
     }
 
     public void spaceAction(){
-        if(positionY >= maxY || positionY <= minY){
+        if(positionY >= maxY+20 || positionY <= minY){
             gameOver = true;
         }
         if(!gameOver) {
             positionY += (int)velocity;
-            velocity += acceleration;
+            velocity += gravity;
 
         }
     }
