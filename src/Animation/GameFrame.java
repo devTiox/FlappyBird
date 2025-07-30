@@ -14,11 +14,11 @@ public class GameFrame extends JPanel implements ActionListener {
 
     public GameFrame(){
         bird = new Bird();
-        pipesQueue = new Pipes();
-        setPreferredSize(new Dimension(600, 800));
-        setMaximumSize(new Dimension(600, 800));
+        pipesQueue = new Pipes(bird);
+        setPreferredSize(new Dimension(GameWindow.screenWidth, GameWindow.screenHeight));
+        setMaximumSize(new Dimension(GameWindow.screenWidth, GameWindow.screenHeight));
         setLayout(null);
-        setBounds(0, 0, 600, 800);
+        setBounds(0, 0, GameWindow.screenWidth, GameWindow.screenHeight);
         setOpaque(false);
 
         timer = new Timer(10,this);
@@ -42,14 +42,16 @@ public class GameFrame extends JPanel implements ActionListener {
 
     private void paintSky(Graphics g){
         g.setColor(Color.WHITE);
-        g.fillRect(0, 0, 600, 100);
+        g.fillRect(0, 0, GameWindow.screenWidth, GameWindow.screenHeight/10);
     }
 
     private void paintGround(Graphics g){
+        int dirtPosition = GameWindow.screenHeight - GameWindow.screenHeight/5;
+        int grassPosition = dirtPosition - GameWindow.screenWidth/10;
         g.setColor(new Color(111,78,55));
-        g.fillRect(0, 650, 600,100);
+        g.fillRect(0, dirtPosition, GameWindow.screenWidth ,GameWindow.screenHeight/5);
         g.setColor(new Color(140, 200,100));
-        g.fillRect(0, 600, 600,50);
+        g.fillRect(0, grassPosition, GameWindow.screenWidth,GameWindow.screenHeight/10);
     }
 
     public void actionPerformed(ActionEvent actionEvent){

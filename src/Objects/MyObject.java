@@ -1,15 +1,17 @@
 package Objects;
 
+import Animation.GameWindow;
+
 import java.awt.*;
 
 public abstract class MyObject {
-    protected int positionX;
-    protected int positionY;
+    public int positionX;
+    public int positionY;
     protected final Dimension size;
-    protected final int sizeX;
+    public final int sizeX;
     protected final int sizeY;
-    protected final int maxY = 555;
-    protected final int minY = 100;
+    protected final static int maxY = GameWindow.screenHeight - GameWindow.screenHeight/5 - GameWindow.screenHeight/10 ;
+    protected final static int minY = GameWindow.screenHeight/10;
 
     public MyObject(int positionX, int positionY, int sizeX, int sizeY){
         this.positionX = positionX;
@@ -21,7 +23,7 @@ public abstract class MyObject {
 //
 //    public Dimension getSize() {
 //        return size;
-//    }
+// }
 //
 //    public int getSizeX() {
 //        return sizeX;

@@ -1,5 +1,7 @@
 package Objects;
 
+import Animation.GameWindow;
+
 import java.awt.*;
 
 public class Bird extends MyObject{
@@ -9,7 +11,8 @@ public class Bird extends MyObject{
     private final double gravity = 0.02;
 
     public Bird(){
-        super(100, 200, 50, 30);
+        super(GameWindow.screenWidth/3, GameWindow.screenHeight/3,
+                GameWindow.screenWidth/12, GameWindow.screenHeight/26);
     }
 
     public boolean isGameOver(){
@@ -26,11 +29,11 @@ public class Bird extends MyObject{
         g.setColor(new Color(250,120,160));
         g.fillOval(positionX, positionY , sizeX, sizeY);
         g.setColor(Color.BLACK);
-        g.fillOval(positionX+35, positionY+5, 10, 7);
+        g.fillOval(positionX+sizeX-sizeX/8, positionY+sizeY/3, sizeX/10, sizeY/10);
     }
 
     public void spaceAction(){
-        if(positionY >= maxY+20 || positionY <= minY){
+        if(positionY >= maxY || positionY <= minY){
             gameOver = true;
         }
         if(!gameOver) {
