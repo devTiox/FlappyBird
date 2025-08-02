@@ -1,5 +1,7 @@
 package Animation;
 
+import Objects.MyObject;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,33 +9,40 @@ public class GameWindow {
     public JFrame window;
     public JLayeredPane layers;
     public JPanel menuPanel;
-    private JPanel cardPanel;
-    private CardLayout cl;
-    private Dimension size;
-    private GameFrame gameFrame;
+    private final JPanel cardPanel;
+    private final CardLayout cl;
+    private final GameFrame gameFrame;
+    public final static int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
+    public final static int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width/2;
 
     public GameWindow(){
-        size = new Dimension(600, 800);
+        Dimension size = new Dimension(screenWidth, screenHeight);
         window = new JFrame("FlappyTypeShit");
+        window.setLocation(screenWidth/2,screenHeight/2);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         layers = new JLayeredPane();
         cl = new CardLayout();
         cardPanel = new JPanel(cl);
         menuPanel = new JPanel();
+
         BackGround background = new BackGround();
-        gameFrame = new GameFrame();
+        gameFrame = new GameFrame(this);
+        HighScoreTable highScoreTable = new HighScoreTable(this);
 
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBounds(0,0,600,800);
+        menuPanel.setBounds(0,0, screenWidth, screenHeight);
+
         setButtons(menuPanel);
 
-        cardPanel.setBounds(0,0, size.width, size.height);
+        cardPanel.setBounds(0,0, screenWidth, screenHeight);
         cardPanel.setOpaque(false);
         cardPanel.add(menuPanel, "MENU");
         cardPanel.add(gameFrame, "GAME");
+        cardPanel.add(highScoreTable, "HIGH SCORES");
+
         cl.show(cardPanel, "MENU");
 
-        layers.add(background,0);
+        layers.add(background, 0);
         layers.add(cardPanel, 1);
         layers.moveToBack(background);
 
@@ -42,24 +51,43 @@ public class GameWindow {
         window.setVisible(true);
     }
 
+    public void restartGame(){
+        MyObject.gameReset();
+        cardPanel.remove(gameFrame);
+        cardPanel.add(new GameFrame(this), "GAME");
+        cl.show(cardPanel, "GAME");
+    }
+
+    public void backToMenu(){
+        cl.show(cardPanel, "MENU");
+    }
+
     public void setButtons(JPanel buttonPanel){
-        Dimension prefSize = new Dimension(300, 100);
-        Font font = new Font("Arial", Font.ITALIC, 20);
+        int buttonWidth = screenWidth/2;
+        int buttonHeight = screenHeight/6-100;
+        int buttonGap = buttonHeight/3;
+        Dimension prefSize = new Dimension(buttonWidth, buttonHeight);
+        Font font = new Font("Arial", Font.ITALIC, buttonHeight/4);
         buttonPanel.add(Box.createHorizontalGlue());
-        buttonPanel.add(Box.createVerticalStrut(50));
+        buttonPanel.add(Box.createVerticalStrut(buttonGap+buttonGap/10));
         buttonPanel.add(createButton("Play", prefSize, font));
-        buttonPanel.add(Box.createVerticalStrut(50));
-        buttonPanel.add(createButton("Scores Table", prefSize, font));
-        buttonPanel.add(Box.createVerticalStrut(50));
+        buttonPanel.add(Box.createVerticalStrut(buttonGap));
+        buttonPanel.add(createButton("High Score", prefSize, font));
+        buttonPanel.add(Box.createVerticalStrut(buttonGap));
         buttonPanel.add(createButton("Settings", prefSize, font));
-        buttonPanel.add(Box.createVerticalStrut(50));
+        buttonPanel.add(Box.createVerticalStrut(buttonGap));
         buttonPanel.add(createButton("Exit", prefSize, font));
         buttonPanel.setOpaque(false);
     }
 
     private JButton createButton(String name, Dimension size, Font font){
         JButton button = new JButton(name);
-        button.addActionListener(e-> cl.show(cardPanel, "GAME"));
+        switch(name){
+            case "Play" -> button.addActionListener(e-> cl.show(cardPanel, "GAME"));
+            case "High Score"  -> button.addActionListener(e-> cl.show(cardPanel, "HIGH SCORES"));
+            case "Settings" -> button.addActionListener(e-> cl.show(cardPanel, "SETTINGS"));
+            case "Exit" -> button.addActionListener(e-> System.exit(0));
+        }
         button.setPreferredSize(size);
         button.setMaximumSize(size);
         button.setFont(font);
@@ -69,11 +97,11 @@ public class GameWindow {
 }
 
 class BackGround extends JPanel {
-    private Image img;
+    private final Image img;
 
     public BackGround(){
         img = new ImageIcon("src/Images/Forest.jpg").getImage();
-        setBounds(0,0, 600, 800);
+        setBounds(0,0, GameWindow.screenWidth, GameWindow.screenHeight);
         setLayout(new BorderLayout());
     }
 

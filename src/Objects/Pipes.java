@@ -1,20 +1,24 @@
 package Objects;
 
+import Animation.GameWindow;
+
 import java.awt.*;
 
 import java.util.Random;
 
 public class Pipes{
-    private int pipesCount = 24;
-    private int visiblePipesCount = 3;
-    private Pipe[] pipeCollection = new Pipe[pipesCount];
-    private Pipe[] visiblePipes = new Pipe[visiblePipesCount];
-    private Random rand = new Random();
-    private int SPAWN_DELAY = 360;
-    private int spawnTimer = 30;
+    private final int pipesCount = GameWindow.screenHeight/33 - 3;
+    private final int visiblePipesCount = GameWindow.screenWidth/200;
+    private final Pipe[] pipeCollection = new Pipe[pipesCount];
+    private final Pipe[] visiblePipes = new Pipe[visiblePipesCount];
+    private final Random rand = new Random();
+    private final float SPAWN_DELAY = GameWindow.screenWidth/3.3f;
+    private float spawnTimer = SPAWN_DELAY/2;
+    private final Bird bird;
 
-    public Pipes(){
+    public Pipes(Bird bird){
         int pipeNumb = 0;
+        this.bird = bird;
         for(int i = 0; i < pipesCount; i++){
             pipeCollection[i] = new Pipe(pipeNumb);
             pipeNumb += 20;
@@ -38,12 +42,14 @@ public class Pipes{
         }
 
         // Move existing pipes
-        for(int i = 0; i < visiblePipesCount; i++) {
+        for(int i = 0 ; i < visiblePipesCount; i++) {
             if(visiblePipes[i] != null) {
                 visiblePipes[i].pipeMove();
-                if(visiblePipes[i].positionX < -100) {
-                    visiblePipes[i] = null;
+                if(visiblePipes[i].positionX <= bird.positionX+bird.sizeX && visiblePipes[i].positionX+visiblePipes[i].sizeX >= bird.positionX){
+                    visiblePipes[i].checkForCollision(bird);
                 }
+                if(visiblePipes[i].positionX < -GameWindow.screenWidth/6)
+                    visiblePipes[i] = null;
             }
         }
     }
@@ -58,27 +64,35 @@ public class Pipes{
 }
 
 class Pipe extends MyObject{
-    private final int gapSize = 100;
+    private final int gapSize = maxY/5;
     public int pipeNumb;
-
+    private final static int startingPosition = GameWindow.screenWidth+20;
+    public int upperPipe;
+    public int lowerPipe;
 
     public Pipe(int pipeNumb){
-        super(610,90 , 100, 520);
+        super(startingPosition, minY, GameWindow.screenWidth/6, maxY);
         this.pipeNumb = pipeNumb;
     }
 
     public void drawPipe(Graphics g){
+        upperPipe = pipeNumb;
+        lowerPipe = positionY + pipeNumb + gapSize;
         g.setColor(new Color(58,58,58));
-        g.fillRect(positionX, positionY, sizeX, pipeNumb);
-        g.fillRect(positionX, positionY + pipeNumb + gapSize, sizeX, sizeY - pipeNumb - gapSize);
+        g.fillRect(positionX, positionY, sizeX, upperPipe);
+        g.fillRect(positionX, lowerPipe, sizeX, sizeY - pipeNumb - gapSize - GameWindow.screenHeight/13);
     }
 
     public void pipeMove(){
-        int movement = 1;
+        int movement = 2;
         positionX -= movement;
     }
 
+    public void checkForCollision(Bird bird){
+        gameOver = !(((bird.positionY + bird.sizeY) < lowerPipe) && (bird.positionY > (upperPipe + bird.sizeY)));
+    }
+
     public void resetPosition(){
-        positionX = 610;
+        positionX = startingPosition;
     }
 }
