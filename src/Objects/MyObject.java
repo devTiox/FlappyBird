@@ -6,6 +6,7 @@ import java.awt.*;
 
 public abstract class MyObject {
     protected static boolean gameOver = false;
+    public static int points = 0;
     public int positionX;
     public int positionY;
     protected final Dimension size;
@@ -28,6 +29,7 @@ public abstract class MyObject {
     }
 
     public static void gameReset(){
+        points = 0;
         gameOver = false;
     }
 

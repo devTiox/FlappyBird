@@ -73,8 +73,7 @@ public class GameFrame extends JPanel implements ActionListener {
         repaint();
         if(MyObject.isGameOver()) {
             timer.stop();
-            System.out.println("Game Over");
+            System.out.println(("Game Over|Points:" + MyObject.points));
         }
     }
 }
-

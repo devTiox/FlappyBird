@@ -31,7 +31,6 @@ public class GameWindow {
 
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
         menuPanel.setBounds(0,0, screenWidth, screenHeight);
-
         setButtons(menuPanel);
 
         cardPanel.setBounds(0,0, screenWidth, screenHeight);
@@ -43,7 +42,7 @@ public class GameWindow {
         cl.show(cardPanel, "MENU");
 
         layers.add(background, 0);
-        layers.add(cardPanel, 1);
+        layers.add(cardPanel, 2);
         layers.moveToBack(background);
 
         window.setSize(size);
@@ -64,7 +63,7 @@ public class GameWindow {
 
     public void setButtons(JPanel buttonPanel){
         int buttonWidth = screenWidth/2;
-        int buttonHeight = screenHeight/6-100;
+        int buttonHeight = screenHeight/7;
         int buttonGap = buttonHeight/3;
         Dimension prefSize = new Dimension(buttonWidth, buttonHeight);
         Font font = new Font("Arial", Font.ITALIC, buttonHeight/4);

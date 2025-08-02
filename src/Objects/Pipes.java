@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Pipes{
-    private final int pipesCount = GameWindow.screenHeight/33 - 3;
+    private final int pipesCount = GameWindow.screenHeight/33 - 4;
     private final int visiblePipesCount = GameWindow.screenWidth/200;
     private final Pipe[] pipeCollection = new Pipe[pipesCount];
     private final Pipe[] visiblePipes = new Pipe[visiblePipesCount];
@@ -47,6 +47,7 @@ public class Pipes{
                 visiblePipes[i].pipeMove();
                 if(visiblePipes[i].positionX <= bird.positionX+bird.sizeX && visiblePipes[i].positionX+visiblePipes[i].sizeX >= bird.positionX){
                     visiblePipes[i].checkForCollision(bird);
+                    if(bird.positionX == visiblePipes[i].positionX + visiblePipes[i].sizeX/2 ) MyObject.points++;
                 }
                 if(visiblePipes[i].positionX < -GameWindow.screenWidth/6)
                     visiblePipes[i] = null;
@@ -66,7 +67,7 @@ public class Pipes{
 class Pipe extends MyObject{
     private final int gapSize = maxY/5;
     public int pipeNumb;
-    private final static int startingPosition = GameWindow.screenWidth+20;
+    private final static int startingPosition = GameWindow.screenWidth + GameWindow.screenWidth/6;
     public int upperPipe;
     public int lowerPipe;
 
@@ -89,7 +90,7 @@ class Pipe extends MyObject{
     }
 
     public void checkForCollision(Bird bird){
-        gameOver = !(((bird.positionY + bird.sizeY) < lowerPipe) && (bird.positionY > (upperPipe + bird.sizeY)));
+        gameOver = !(((bird.positionY + bird.sizeY) < lowerPipe) && (bird.positionY > (upperPipe + 2*bird.sizeY)));
     }
 
     public void resetPosition(){
