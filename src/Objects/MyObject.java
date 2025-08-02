@@ -5,6 +5,7 @@ import Animation.GameWindow;
 import java.awt.*;
 
 public abstract class MyObject {
+    protected static boolean gameOver = false;
     public int positionX;
     public int positionY;
     protected final Dimension size;
@@ -20,24 +21,14 @@ public abstract class MyObject {
         this.sizeY = sizeY;
         size = new Dimension(sizeX,sizeY);
     }
-//
-//    public Dimension getSize() {
-//        return size;
-// }
-//
-//    public int getSizeX() {
-//        return sizeX;
-//    }
-//
-//    public int getSizeY() {
-//        return sizeY;
-//    }
-    public int getPositionX() {
-        return positionX;
+
+
+    public static boolean isGameOver(){
+        return gameOver;
     }
-//
-//    public int getPositionY() {
-//        return positionY;
-//    }
+
+    public static void gameReset(){
+        gameOver = false;
+    }
 
 }

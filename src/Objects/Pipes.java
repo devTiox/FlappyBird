@@ -7,12 +7,12 @@ import java.awt.*;
 import java.util.Random;
 
 public class Pipes{
-    private int pipesCount = GameWindow.screenHeight/33 - 1;
-    private int visiblePipesCount = GameWindow.screenWidth/200;
-    private Pipe[] pipeCollection = new Pipe[pipesCount];
-    private Pipe[] visiblePipes = new Pipe[visiblePipesCount];
-    private Random rand = new Random();
-    private float SPAWN_DELAY = GameWindow.screenWidth/3.3f;
+    private final int pipesCount = GameWindow.screenHeight/33 - 3;
+    private final int visiblePipesCount = GameWindow.screenWidth/200;
+    private final Pipe[] pipeCollection = new Pipe[pipesCount];
+    private final Pipe[] visiblePipes = new Pipe[visiblePipesCount];
+    private final Random rand = new Random();
+    private final float SPAWN_DELAY = GameWindow.screenWidth/3.3f;
     private float spawnTimer = SPAWN_DELAY/2;
     private final Bird bird;
 
@@ -42,12 +42,14 @@ public class Pipes{
         }
 
         // Move existing pipes
-        for(int i = 0; i < visiblePipesCount; i++) {
+        for(int i = 0 ; i < visiblePipesCount; i++) {
             if(visiblePipes[i] != null) {
                 visiblePipes[i].pipeMove();
-                if(visiblePipes[i].positionX < -GameWindow.screenWidth/6) {
-                    visiblePipes[i] = null;
+                if(visiblePipes[i].positionX <= bird.positionX+bird.sizeX && visiblePipes[i].positionX+visiblePipes[i].sizeX >= bird.positionX){
+                    visiblePipes[i].checkForCollision(bird);
                 }
+                if(visiblePipes[i].positionX < -GameWindow.screenWidth/6)
+                    visiblePipes[i] = null;
             }
         }
     }
@@ -84,6 +86,10 @@ class Pipe extends MyObject{
     public void pipeMove(){
         int movement = 2;
         positionX -= movement;
+    }
+
+    public void checkForCollision(Bird bird){
+        gameOver = !(((bird.positionY + bird.sizeY) < lowerPipe) && (bird.positionY > (upperPipe + bird.sizeY)));
     }
 
     public void resetPosition(){

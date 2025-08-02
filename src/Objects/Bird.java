@@ -5,22 +5,17 @@ import Animation.GameWindow;
 import java.awt.*;
 
 public class Bird extends MyObject{
-    private boolean gameOver = false;
-    private final int startingVelocity = 2;
+    private final int startingVelocity = GameWindow.screenHeight/500;
     private double velocity = startingVelocity;
-    private final double gravity = 0.02;
 
     public Bird(){
         super(GameWindow.screenWidth/3, GameWindow.screenHeight/3,
                 GameWindow.screenWidth/12, GameWindow.screenHeight/26);
     }
 
-    public boolean isGameOver(){
-        return gameOver;
-    }
 
     public void jump(){
-        int jumpPower = 35*startingVelocity;
+        int jumpPower = GameWindow.screenHeight/14;
         positionY -= jumpPower;
         velocity = startingVelocity;
     }
@@ -33,6 +28,7 @@ public class Bird extends MyObject{
     }
 
     public void spaceAction(){
+        double gravity = 0.02;
         if(positionY >= maxY || positionY <= minY){
             gameOver = true;
         }

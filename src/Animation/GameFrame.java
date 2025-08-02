@@ -10,9 +10,9 @@ import java.awt.event.ActionListener;
 public class GameFrame extends JPanel implements ActionListener {
     private final Bird bird;
     private final Timer timer;
-    private Pipes pipesQueue;
+    private final Pipes pipesQueue;
 
-    public GameFrame(){
+    public GameFrame(GameWindow parentWindow ){
         bird = new Bird();
         pipesQueue = new Pipes(bird);
         setPreferredSize(new Dimension(GameWindow.screenWidth, GameWindow.screenHeight));
@@ -24,10 +24,23 @@ public class GameFrame extends JPanel implements ActionListener {
         timer = new Timer(10,this);
         timer.start();
         getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "jumping");
+        getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "escape");
+
+        getActionMap().put("escape", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                parentWindow.backToMenu();
+            }
+        });
+
         getActionMap().put("jumping", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                bird.jump();
+                if (!MyObject.isGameOver()) {
+                    bird.jump();
+                } else {
+                    parentWindow.restartGame();
+                }
             }
         });
     }
@@ -58,7 +71,7 @@ public class GameFrame extends JPanel implements ActionListener {
         bird.spaceAction();
         pipesQueue.gameOn();
         repaint();
-        if(bird.isGameOver()) {
+        if(MyObject.isGameOver()) {
             timer.stop();
             System.out.println("Game Over");
         }
